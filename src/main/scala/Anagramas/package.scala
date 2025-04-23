@@ -5,16 +5,15 @@ package object Anagramas {
   type Ocurrencias = List[(Char, Int)]
 
   val diccionario: List[Palabra] = List("cosas", "como", "yo", "y", "ocasos", "oca", "cayo", "mocosos", "roca", "moco", "sos", "saca")
-  //val diccionario: List[Palabra] = List("yo", "oy", "sos", "oso", "so", "os")
 
   def lOcPal(p: Palabra): Ocurrencias = {
     p.groupBy(letra => letra).map {
       case (letra, ocurrencias) => (letra, ocurrencias.length)
-    }.toList
+    }.toList.sortBy(_._1)
   }
 
   def lOcFrase(f: Frase): Ocurrencias = {
-    lOcPal(f.foldLeft("")((acumulador, palabra) => acumulador + palabra).trim)
+    lOcPal(f.foldLeft("")((acumulador, palabra) => acumulador + palabra).trim).sortBy(_._1)
   }
 
   lazy val diccionarioPorOcurrencias: Map[Ocurrencias, List[Palabra]] = {
@@ -22,15 +21,7 @@ package object Anagramas {
   }
 
   def anagramasDePalabra(pal: Palabra): List[Palabra] = {
-    val ocuPal = lOcPal(pal)
-    {
-      for {
-        (liOcurrencia, palabras) <- diccionarioPorOcurrencias
-        if liOcurrencia.toSet == ocuPal.toSet
-      } yield palabras
-    }.flatten.toList
-
-    // Otra forma: diccionarioPorOcurrencias.getOrElse(lOcPal(pal), List())
+    diccionarioPorOcurrencias.getOrElse(lOcPal(pal), List())
   }
 
   def combinaciones(lOcurrencias: Ocurrencias): List[Ocurrencias] = {
@@ -50,15 +41,13 @@ package object Anagramas {
   def complemento(lOc: Ocurrencias, slOc: Ocurrencias): Ocurrencias = {
     val mapaSlOc = slOc.toMap
 
-    lOc.flatMap {
-      case (letra, cantidad) =>
-        mapaSlOc.get(letra) match {
-          case Some(cantRestar) if cantidad - cantRestar > 0 => Some((letra, cantidad - cantRestar))
-          case Some(_) => None 
-          case None => Some((letra, cantidad)) 
-        }
-    }
-  } // se necesita usar tailrec ¿¿??
+    lOc
+      .map { case (letra, cantidad) =>
+        val cantRestar = mapaSlOc.getOrElse(letra, 0)
+        (letra, cantidad - cantRestar)
+      }
+      .filter { case (_, nuevaCantidad) => nuevaCantidad > 0 }
+  } 
 
   def anagramasDeFrase(frase: Frase): List[Frase] = {
     def anagramasLiOc(liOc: Ocurrencias): List[Frase] = {
