@@ -37,7 +37,7 @@ println(complemento(lOcPal("casa"), List(('z',1)))) // List(('a',2),('c',1),('s'
 
 // ----------- anagramasDePalabra -----------
 println("\n=== Pruebas anagramasDePalabra ===")
-println(anagramasDePalabra("ocasos"))   // Esperado: List("ocasos")
+println(anagramasDePalabra("ocasos"))   // Esperado: List()
 println(anagramasDePalabra("moco"))    // Esperado: List("como")
 println(anagramasDePalabra("como"))    // Esperado: List("moco")
 println(anagramasDePalabra("sos"))     // Esperado: List()
