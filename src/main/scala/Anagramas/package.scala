@@ -21,7 +21,7 @@ package object Anagramas {
   }
 
   def anagramasDePalabra(pal: Palabra): List[Palabra] = {
-    diccionarioPorOcurrencias.getOrElse(lOcPal(pal), List())
+    diccionarioPorOcurrencias.getOrElse(lOcPal(pal), List()).filter(_ != pal)
   }
 
   def combinaciones(lOcurrencias: Ocurrencias): List[Ocurrencias] = {
@@ -47,7 +47,7 @@ package object Anagramas {
         (letra, cantidad - cantRestar)
       }
       .filter { case (_, nuevaCantidad) => nuevaCantidad > 0 }
-  } 
+  }
 
   def anagramasDeFrase(frase: Frase): List[Frase] = {
     def anagramasLiOc(liOc: Ocurrencias): List[Frase] = {
@@ -65,6 +65,6 @@ package object Anagramas {
       }
     }
 
-    anagramasLiOc(lOcFrase(frase))
+    anagramasLiOc(lOcFrase(frase)).filter(_ != frase)
   }
 }
