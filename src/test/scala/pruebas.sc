@@ -37,12 +37,11 @@ println(complemento(lOcPal("casa"), List(('z',1)))) // List(('a',2),('c',1),('s'
 
 // ----------- anagramasDePalabra -----------
 println("\n=== Pruebas anagramasDePalabra ===")
-println(anagramasDePalabra("cosas"))   // List("ocasos")
-println(anagramasDePalabra("moco"))    // List("como")
-println(anagramasDePalabra("sos"))     // List()
-println(anagramasDePalabra("oca"))     // List()
-println(anagramasDePalabra("cayo"))    // List("coya", "yoca") si están en el diccionario
-println(anagramasDePalabra("yo"))      // List("oy") si está en el diccionario
+println(anagramasDePalabra("ocasos"))   // Esperado: List("ocasos")
+println(anagramasDePalabra("moco"))    // Esperado: List("como")
+println(anagramasDePalabra("como"))    // Esperado: List("moco")
+println(anagramasDePalabra("sos"))     // Esperado: List()
+println(anagramasDePalabra("roca"))    // Esperado: List()
 
 // ----------- anagramasDeFrase -----------
 println("\n=== Pruebas anagramasDeFrase ===")
@@ -65,4 +64,3 @@ probar(List("abc"), "Frase con letras que no están en ninguna palabra del dicci
 probar(List("casa", "saca"), "Frase con palabras anagramas entre sí")
 probar(List("roca", "yo"), "Frase con palabras cortas")
 probar(List("moco", "sos"), "Frase con palabras del diccionario")
-
